@@ -6,18 +6,25 @@ public class Railgun : MonoBehaviour
 {
     // Components
     private Rigidbody2D _rb;
+    private LineRenderer _lr;
 
     // Inputs
     private Vector3 _lookDir;
     private float _mouseDistance;
+    private Vector3 _mousePos;
 
     // Target Info
     RaycastHit2D _hit;
     bool _isOnTarget;
 
+    // Beam
+    [SerializeField] float _beamDuration;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _lr = GetComponent<LineRenderer>();
+        _lr.enabled = false;
     }
 
     void Update()
@@ -49,22 +56,38 @@ public class Railgun : MonoBehaviour
     void RotateGun()
     {
         // Get mouse position
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
+        _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _mousePos.z = 0;
 
-        _mouseDistance = (mousePos - transform.position).magnitude;
+        _mouseDistance = (_mousePos - transform.position).magnitude;
 
-        _lookDir = mousePos - transform.position;
+        _lookDir = _mousePos - transform.position;
         Quaternion lookRot = Quaternion.LookRotation(_lookDir, Vector3.back);
         _rb.MoveRotation(lookRot);
     }
 
     void FireGun()
     {
+        StartCoroutine(BeamActive());
+
+        _lr.SetPosition(0, transform.position);
+
         if (_isOnTarget)
         {
             Debug.Log("BOOM");
             _isOnTarget = false;
+            _lr.SetPosition(1, _hit.point);
         }
+        else
+        {
+            _lr.SetPosition(1, _mousePos);
+        }
+    }
+
+    IEnumerator BeamActive()
+    {
+        _lr.enabled = true;
+        yield return new WaitForSeconds(_beamDuration);
+        _lr.enabled = false;
     }
 }
