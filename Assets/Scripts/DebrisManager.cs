@@ -14,6 +14,16 @@ public class DebrisManager : MonoBehaviour
     // Debris List
     List<GameObject> _debrisPool;
 
+    private void OnEnable()
+    {
+        Debris.DebrisShotEvent += DebrisShotEventHandler;
+    }
+
+    private void OnDisable()
+    {
+        Debris.DebrisShotEvent -= DebrisShotEventHandler;
+    }
+
     void Start()
     {
         // Create Debris pool and assign to parent object for clean hierarchy
@@ -22,6 +32,7 @@ public class DebrisManager : MonoBehaviour
         InvokeRepeating("SpawnDebris", 2f, 5f);
     }
 
+    // Spawns debris
     void SpawnDebris()
     {
         GameObject debris = ObjectPooler.GetPooledObject(_debrisPool);
@@ -39,8 +50,10 @@ public class DebrisManager : MonoBehaviour
         }
     }
 
+    // Selects spawn point for debris
     Transform SelectSpawnPoint()
     {
+        // Check that all spawn points are not taken up already
         if (_debrisSpawnList.Count != 0)
         {
             Transform spawn = _debrisSpawnList[Random.Range(0, _debrisSpawnList.Count)];
@@ -52,5 +65,12 @@ public class DebrisManager : MonoBehaviour
         {
             return null;
         }
+    }
+
+    void DebrisShotEventHandler(GameObject debrisHit)
+    {
+        // Deactivate debris and return spawn position to spanw list
+        debrisHit.SetActive(false);
+        _debrisSpawnList.Add(debrisHit.transform);
     }
 }

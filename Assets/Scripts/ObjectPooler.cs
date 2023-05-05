@@ -19,7 +19,7 @@ public static class ObjectPooler
         return pooledObjects;
     }
 
-    //Retrieve a pooled object if it is not active in the hierarchy
+    // Retrieve a pooled object if it is not active in the hierarchy
     public static GameObject GetPooledObject(List<GameObject> pooledObjects)
     {
         foreach (GameObject obj in pooledObjects)

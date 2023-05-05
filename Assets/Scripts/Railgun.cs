@@ -41,15 +41,18 @@ public class Railgun : MonoBehaviour
     {
         _hit = Physics2D.Raycast(transform.position, _lookDir, _mouseDistance);
 
-        if (_hit.collider != null)
+        if (_hit)
         {
-            _isOnTarget = true;
-            Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.green);
-        }
-        else
-        {
-            _isOnTarget = false;
-            Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.red);
+            if (_hit.collider.CompareTag("Debris"))
+            {
+                _isOnTarget = true;
+                Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.green);
+            }
+            else
+            {
+                _isOnTarget = false;
+                Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.red);
+            }
         }
     }
 
@@ -74,7 +77,7 @@ public class Railgun : MonoBehaviour
 
         if (_isOnTarget)
         {
-            Debug.Log("BOOM");
+            _hit.collider.GetComponent<Debris>().OnRailgunHit();
             _isOnTarget = false;
             _lr.SetPosition(1, _hit.point);
         }
