@@ -7,6 +7,7 @@ public class DebrisManager : MonoBehaviour
 {
     // Debris Data
     [SerializeField] GameObject _debrisPrefab;
+    [SerializeField] Transform _debrisGrouping;
     [SerializeField] int _debrisMaxCount;
     [SerializeField] List<Transform> _debrisSpawnList;
 
@@ -15,12 +16,41 @@ public class DebrisManager : MonoBehaviour
 
     void Start()
     {
-        // Create Debris pool
+        // Create Debris pool and assign to parent object for clean hierarchy
         _debrisPool = ObjectPooler.CreateObjectPool(_debrisMaxCount, _debrisPrefab);
+        ObjectPooler.AssignParentGroup(_debrisPool, _debrisGrouping);
+        InvokeRepeating("SpawnDebris", 2f, 5f);
     }
 
-    void Update()
+    void SpawnDebris()
     {
-        
+        GameObject debris = ObjectPooler.GetPooledObject(_debrisPool);
+
+        // Check there is available debris to spawn
+        if (debris != null)
+        {
+            Transform spawn = SelectSpawnPoint();
+            // Select a random spawn point
+            if (spawn != null)
+            {
+                debris.transform.position = spawn.position;
+                debris.SetActive(true);
+            }
+        }
+    }
+
+    Transform SelectSpawnPoint()
+    {
+        if (_debrisSpawnList.Count != 0)
+        {
+            Transform spawn = _debrisSpawnList[Random.Range(0, _debrisSpawnList.Count)];
+
+            _debrisSpawnList.Remove(spawn);
+            return spawn;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

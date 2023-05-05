@@ -1756,6 +1756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _debrisPrefab: {fileID: 2632182163529588533, guid: 414a1ff099f09b54eb6a2a8069cbc6a9, type: 3}
+  _debrisGrouping: {fileID: 1129378675}
   _debrisMaxCount: 4
   _debrisSpawnList:
   - {fileID: 1117210523}
