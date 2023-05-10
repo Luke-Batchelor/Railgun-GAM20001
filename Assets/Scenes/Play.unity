@@ -1763,6 +1763,7 @@ MonoBehaviour:
   - {fileID: 556286055}
   - {fileID: 150470503}
   - {fileID: 1593915403}
+  _satellite: {fileID: 430207675}
 --- !u!1 &1843952605
 GameObject:
   m_ObjectHideFlags: 0

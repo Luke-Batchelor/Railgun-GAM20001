@@ -14,6 +14,9 @@ public class DebrisManager : MonoBehaviour
     // Debris List
     List<GameObject> _debrisPool;
 
+    // Satellite Cache
+    [SerializeField] GameObject _satellite;
+
     private void OnEnable()
     {
         Debris.DebrisShotEvent += DebrisShotEventHandler;
@@ -44,6 +47,7 @@ public class DebrisManager : MonoBehaviour
             // Select a random spawn point
             if (spawn != null)
             {
+                debris.GetComponent<Debris>().SpawnPoint = spawn;
                 debris.transform.position = spawn.position;
                 debris.SetActive(true);
             }
@@ -58,6 +62,12 @@ public class DebrisManager : MonoBehaviour
         {
             Transform spawn = _debrisSpawnList[Random.Range(0, _debrisSpawnList.Count)];
 
+            // Ensure debris doesn't spawn within 2 units from satellite 
+            while (Mathf.Abs((spawn.position - _satellite.transform.position).magnitude) < 2f)
+            {
+                spawn = _debrisSpawnList[Random.Range(0, _debrisSpawnList.Count)];
+            }
+
             _debrisSpawnList.Remove(spawn);
             return spawn;
         }
@@ -69,8 +79,8 @@ public class DebrisManager : MonoBehaviour
 
     void DebrisShotEventHandler(GameObject debrisHit)
     {
-        // Deactivate debris and return spawn position to spanw list
+        // Deactivate debris and return spawn position to spawn list
         debrisHit.SetActive(false);
-        _debrisSpawnList.Add(debrisHit.transform);
+        _debrisSpawnList.Add(debrisHit.GetComponent<Debris>().SpawnPoint);
     }
 }
