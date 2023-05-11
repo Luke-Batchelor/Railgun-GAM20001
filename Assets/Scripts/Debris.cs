@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Debris : MonoBehaviour
 {
-    public static Action DebrisCollidedEvent; 
     public static Action<GameObject> DebrisShotEvent;
 
     public Transform SpawnPoint;
@@ -24,16 +23,6 @@ public class Debris : MonoBehaviour
         transform.RotateAround(Vector3.zero, Vector3.back, _angularSpeed * Time.deltaTime);
         // Move between two points
         transform.Translate(Vector3.up * Mathf.Sin(Time.time) * Time.deltaTime * 2f, transform);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        // Check if debris hit satellite
-        if (collision.gameObject.CompareTag("Satellite"))
-        {
-            // Alert DebrisManager of collision
-            DebrisCollidedEvent?.Invoke();
-        }
     }
 
     public void OnRailgunHit()

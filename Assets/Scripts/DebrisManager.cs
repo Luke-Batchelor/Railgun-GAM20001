@@ -21,11 +21,13 @@ public class DebrisManager : MonoBehaviour
     private void OnEnable()
     {
         Debris.DebrisShotEvent += DebrisShotEventHandler;
+        Satellite.SatelliteHitEvent += SatelliteHitEventHandler;
     }
 
     private void OnDisable()
     {
         Debris.DebrisShotEvent -= DebrisShotEventHandler;
+        Satellite.SatelliteHitEvent -= SatelliteHitEventHandler;
     }
 
     void Start()
@@ -70,7 +72,7 @@ public class DebrisManager : MonoBehaviour
                 spawn = _debrisSpawnList[Random.Range(0, _debrisSpawnList.Count)];
             }
 
-            _debrisSpawnList.Remove(spawn);
+            //_debrisSpawnList.Remove(spawn);
             return spawn;
         }
         else
@@ -83,6 +85,13 @@ public class DebrisManager : MonoBehaviour
     {
         // Deactivate debris and return spawn position to spawn list
         debrisHit.SetActive(false);
-        _debrisSpawnList.Add(debrisHit.GetComponent<Debris>().SpawnPoint);
+        //_debrisSpawnList.Add(debrisHit.GetComponent<Debris>().SpawnPoint);
+    }
+
+    void SatelliteHitEventHandler()
+    {
+        // Stop spawning debris and return debris to object pooler
+        CancelInvoke();
+        ObjectPooler.ReturnObjectsToPool(_debrisPool);
     }
 }
