@@ -21,9 +21,9 @@ public class Debris : MonoBehaviour
     private void Update()
     {
         // Orbit code
-        //transform.RotateAround(Vector3.zero, Vector3.back, _angularSpeed * Time.deltaTime);
-
-        transform.Translate(Vector3.up * Mathf.Sin(Time.time) * Time.deltaTime, SpawnPoint);
+        transform.RotateAround(Vector3.zero, Vector3.back, _angularSpeed * Time.deltaTime);
+        // Move between two points
+        transform.Translate(Vector3.up * Mathf.Sin(Time.time) * Time.deltaTime * 2f, transform);
     }
 
     private void OnCollisionEnter(Collision collision)

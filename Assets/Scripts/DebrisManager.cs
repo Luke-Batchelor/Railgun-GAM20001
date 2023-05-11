@@ -65,7 +65,7 @@ public class DebrisManager : MonoBehaviour
             Transform spawn = _debrisSpawnList[Random.Range(0, _debrisSpawnList.Count)];
 
             // Ensure debris doesn't spawn within 2 units from satellite 
-            while (Mathf.Abs((spawn.position - _satellite.transform.position).magnitude) < 2f)
+            while(Mathf.Abs((spawn.position - _satellite.transform.position).magnitude) < 2f)
             {
                 spawn = _debrisSpawnList[Random.Range(0, _debrisSpawnList.Count)];
             }
