@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.TerrainTools;
 using UnityEngine;
 
 public class DebrisManager : MonoBehaviour
@@ -49,6 +50,7 @@ public class DebrisManager : MonoBehaviour
             {
                 debris.GetComponent<Debris>().SpawnPoint = spawn;
                 debris.transform.position = spawn.position;
+                debris.transform.rotation = spawn.rotation;
                 debris.SetActive(true);
             }
         }
