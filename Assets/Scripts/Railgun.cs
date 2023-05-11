@@ -75,7 +75,7 @@ public class Railgun : MonoBehaviour
 
         _lr.SetPosition(0, transform.position);
 
-        if (_isOnTarget)
+        if (_isOnTarget && _hit)
         {
             _hit.collider.GetComponent<Debris>().OnRailgunHit();
             _isOnTarget = false;

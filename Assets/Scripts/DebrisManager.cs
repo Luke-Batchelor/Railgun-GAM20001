@@ -52,7 +52,6 @@ public class DebrisManager : MonoBehaviour
             // Select a random spawn point
             if (spawn != null)
             {
-                debris.GetComponent<Debris>().SpawnPoint = spawn;
                 debris.transform.position = spawn.position;
                 debris.transform.rotation = spawn.rotation;
                 debris.SetActive(true);
@@ -87,7 +86,6 @@ public class DebrisManager : MonoBehaviour
     {
         // Deactivate debris and return spawn position to spawn list
         debrisHit.SetActive(false);
-        //_debrisSpawnList.Add(debrisHit.GetComponent<Debris>().SpawnPoint);
     }
 
     void SatelliteHitEventHandler()

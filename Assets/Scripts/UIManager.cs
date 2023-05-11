@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.VisualScripting;
+using TMPro;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -10,17 +11,20 @@ using UnityEditor;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] GameObject _gameOverScreen;
+    [SerializeField] TextMeshProUGUI _scoreText;
 
     public static Action RestartGameEvent;
 
     void OnEnable()
     {
         Satellite.SatelliteHitEvent += SatelliteHitEventHandler;
+        ScoreManager.UpdateScoreEvent += UpdateScoreEventHandler;
     }
 
     void OnDisable()
     {
         Satellite.SatelliteHitEvent -= SatelliteHitEventHandler;
+        ScoreManager.UpdateScoreEvent -= UpdateScoreEventHandler;
     }
 
     void Start()
@@ -51,5 +55,10 @@ public class UIManager : MonoBehaviour
     void SatelliteHitEventHandler()
     {
         ShowGameOverScreen(true);
+    }
+
+    void UpdateScoreEventHandler(int score)
+    {
+        _scoreText.text = "Score: " + score.ToString();
     }
 }

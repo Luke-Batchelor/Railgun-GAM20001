@@ -7,14 +7,12 @@ public class Debris : MonoBehaviour
 {
     public static Action<GameObject> DebrisShotEvent;
 
-    public Transform SpawnPoint;
-
     [SerializeField] float _angularSpeed;
+    [SerializeField] int _pointValue;
 
     private void Awake()
     {
-        // Cache initial spawn point to return to spawnpoint list in DebrisManager
-        SpawnPoint = transform;
+       
     }
 
     private void Update()
@@ -30,4 +28,9 @@ public class Debris : MonoBehaviour
         // Alert DebrisManager of shot
         DebrisShotEvent?.Invoke(this.gameObject);
     }    
+
+    public int GetPointValue()
+    {
+        return _pointValue;
+    }
 }
