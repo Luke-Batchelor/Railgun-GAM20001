@@ -22,12 +22,14 @@ public class DebrisManager : MonoBehaviour
     {
         Debris.DebrisShotEvent += DebrisShotEventHandler;
         Satellite.SatelliteHitEvent += SatelliteHitEventHandler;
+        UIManager.RestartGameEvent += StartSpawning;
     }
 
     private void OnDisable()
     {
         Debris.DebrisShotEvent -= DebrisShotEventHandler;
         Satellite.SatelliteHitEvent -= SatelliteHitEventHandler;
+        UIManager.RestartGameEvent -= StartSpawning;
     }
 
     void Start()
@@ -35,7 +37,7 @@ public class DebrisManager : MonoBehaviour
         // Create Debris pool and assign to parent object for clean hierarchy
         _debrisPool = ObjectPooler.CreateObjectPool(_debrisMaxCount, _debrisPrefab);
         ObjectPooler.AssignParentGroup(_debrisPool, _debrisGrouping);
-        InvokeRepeating("SpawnDebris", 2f, 5f);
+        StartSpawning();
     }
 
     // Spawns debris
@@ -90,8 +92,18 @@ public class DebrisManager : MonoBehaviour
 
     void SatelliteHitEventHandler()
     {
+        StopSpawning();
+    }
+
+    void StopSpawning()
+    {
         // Stop spawning debris and return debris to object pooler
         CancelInvoke();
         ObjectPooler.ReturnObjectsToPool(_debrisPool);
+    }
+
+    void StartSpawning()
+    {
+        InvokeRepeating("SpawnDebris", 2f, 5f);
     }
 }

@@ -11,6 +11,16 @@ public class Satellite : MonoBehaviour
 
     bool _isHit;
 
+    private void OnEnable()
+    {
+        UIManager.RestartGameEvent += RestartGameEventHandler;
+    }
+
+    private void OnDisable()
+    {
+        UIManager.RestartGameEvent -= RestartGameEventHandler;
+    }
+
     private void Start()
     {
         _isHit = false;
@@ -33,5 +43,10 @@ public class Satellite : MonoBehaviour
             _isHit = true;
             SatelliteHitEvent?.Invoke();
         }
+    }
+
+    void RestartGameEventHandler()
+    {
+        _isHit = false;
     }
 }
