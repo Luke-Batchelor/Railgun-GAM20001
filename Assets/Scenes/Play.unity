@@ -2077,6 +2077,10 @@ MonoBehaviour:
   - {fileID: 150470503}
   - {fileID: 1593915403}
   _satellite: {fileID: 430207675}
+  _minSpawnTime: 2
+  _maxSpawnTime: 5
+  _changeSpawnTimeAfter: 10
+  _changeSpawnTimeBy: 0.5
 --- !u!1 &1843952605
 GameObject:
   m_ObjectHideFlags: 0

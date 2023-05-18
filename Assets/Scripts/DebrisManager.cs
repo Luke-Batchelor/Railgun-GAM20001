@@ -18,6 +18,13 @@ public class DebrisManager : MonoBehaviour
     // Satellite Cache
     [SerializeField] GameObject _satellite;
 
+    // Spawn Data
+    [SerializeField] float _minSpawnTime;
+    [SerializeField] float _maxSpawnTime;
+    [SerializeField] int _changeSpawnTimeAfter;
+    [SerializeField] float _changeSpawnTimeBy;
+    float _curSpawnTime;
+
     private void OnEnable()
     {
         Debris.DebrisShotEvent += DebrisShotEventHandler;
@@ -38,24 +45,32 @@ public class DebrisManager : MonoBehaviour
         _debrisPool = ObjectPooler.CreateObjectPool(_debrisMaxCount, _debrisPrefab);
         ObjectPooler.AssignParentGroup(_debrisPool, _debrisGrouping);
         StartSpawning();
+
+        // Set spawn time data
+        _curSpawnTime = _maxSpawnTime;
     }
 
     // Spawns debris
-    void SpawnDebris()
+    IEnumerator SpawnDebris()
     {
-        GameObject debris = ObjectPooler.GetPooledObject(_debrisPool);
-
-        // Check there is available debris to spawn
-        if (debris != null)
+        while (true)
         {
-            Transform spawn = SelectSpawnPoint();
-            // Select a random spawn point
-            if (spawn != null)
+            GameObject debris = ObjectPooler.GetPooledObject(_debrisPool);
+
+            // Check there is available debris to spawn
+            if (debris != null)
             {
-                debris.transform.position = spawn.position;
-                debris.transform.rotation = spawn.rotation;
-                debris.SetActive(true);
+                Transform spawn = SelectSpawnPoint();
+                // Select a random spawn point
+                if (spawn != null)
+                {
+                    debris.transform.position = spawn.position;
+                    debris.transform.rotation = spawn.rotation;
+                    debris.SetActive(true);
+                }
             }
+
+            yield return new WaitForSeconds(_curSpawnTime);
         }
     }
 
@@ -84,7 +99,7 @@ public class DebrisManager : MonoBehaviour
 
     void DebrisShotEventHandler(GameObject debrisHit)
     {
-        // Deactivate debris and return spawn position to spawn list
+        // Deactivate debris
         debrisHit.SetActive(false);
     }
 
@@ -96,12 +111,13 @@ public class DebrisManager : MonoBehaviour
     void StopSpawning()
     {
         // Stop spawning debris and return debris to object pooler
-        CancelInvoke();
+        StopAllCoroutines();
         ObjectPooler.ReturnObjectsToPool(_debrisPool);
     }
 
     void StartSpawning()
     {
-        InvokeRepeating("SpawnDebris", 2f, 5f);
+        //InvokeRepeating("SpawnDebris", 2f, 5f);
+        StartCoroutine(SpawnDebris());
     }
 }
