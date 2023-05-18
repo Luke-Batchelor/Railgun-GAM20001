@@ -10,11 +10,6 @@ public class Debris : MonoBehaviour
     [SerializeField] float _angularSpeed;
     [SerializeField] int _pointValue;
 
-    private void Awake()
-    {
-       
-    }
-
     private void Update()
     {
         // Orbit code
