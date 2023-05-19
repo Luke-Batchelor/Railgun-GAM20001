@@ -100,6 +100,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebrisMetalVariant
       objectReference: {fileID: 0}
+    - target: {fileID: 4787969951402217160, guid: dc6621ec471eab84594d7969e6cd9361, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.b
+      value: 0.7843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787969951402217160, guid: dc6621ec471eab84594d7969e6cd9361, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.g
+      value: 0.7843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787969951402217160, guid: dc6621ec471eab84594d7969e6cd9361, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.r
+      value: 0.7843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787969951402217160, guid: dc6621ec471eab84594d7969e6cd9361, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.b
+      value: 0.7843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787969951402217160, guid: dc6621ec471eab84594d7969e6cd9361, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.g
+      value: 0.7843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787969951402217160, guid: dc6621ec471eab84594d7969e6cd9361, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.r
+      value: 0.7843138
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
