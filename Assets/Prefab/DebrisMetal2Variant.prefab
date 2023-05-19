@@ -100,6 +100,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebrisMetal2Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3726375576635857711, guid: 70b83a9c15005684db0bd7b35d0b6ee2, type: 3}
+      propertyPath: _pointValue
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

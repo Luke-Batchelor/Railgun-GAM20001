@@ -20,11 +20,18 @@ public class DebrisManager : MonoBehaviour
     // Debris Grouping
     [Header("Debris Spawning Data")]
     [SerializeField] int _debrisMaxPoolCount;
-    [SerializeField] Transform _debrisGrouping;
+    [SerializeField] Transform _commonDebrisGrouping;
+    [SerializeField] Transform _uncommonDebrisGrouping;
+    [SerializeField] Transform _rareDebrisGrouping;
+    [SerializeField] Transform _asteroidGrouping;
     [SerializeField] List<Transform> _debrisSpawnPosList;
+    [SerializeField] List<Transform> _asteroidSpawnPosList;
 
     // Debris List
-    List<GameObject> _debrisPool;
+    List<GameObject> _commonDebrisPool;
+    List<GameObject> _uncommonDebrisPool;
+    List<GameObject> _rareDebrisPool;
+    List<GameObject> _asteroidPool;
 
     // Spawn Data
     [Header("Spawn Time Data")]
@@ -34,6 +41,7 @@ public class DebrisManager : MonoBehaviour
     [SerializeField] float _changeSpawnTimeBy;
     float _curSpawnTime;
 
+    #region Setup
     private void OnEnable()
     {
         Debris.DebrisShotEvent += DebrisShotEventHandler;
@@ -50,13 +58,42 @@ public class DebrisManager : MonoBehaviour
 
     void Start()
     {
-        // Create Debris pool and assign to parent object for clean hierarchy
-        _debrisPool = ObjectPooler.CreateObjectPool(_debrisMaxPoolCount, _commonDebrisPrefab);
-        ObjectPooler.AssignParentGroup(_debrisPool, _debrisGrouping);
-        StartSpawning();
-
         // Set spawn time data
         _curSpawnTime = _maxSpawnTime;
+
+        // Create object pools
+        _commonDebrisPool = CreateDebrisPools(_commonDebrisPrefab, _commonDebrisGrouping);
+        _uncommonDebrisPool = CreateDebrisPools(_uncommonDebrisPrefab, _uncommonDebrisGrouping);
+        _rareDebrisPool = CreateDebrisPools(_rareDebrisPrefab, _rareDebrisGrouping);
+        _asteroidPool = CreateDebrisPools(_asteroidPrefab, _asteroidGrouping);
+
+        // Start spawning
+        StartSpawning(); 
+    }
+
+    // Create Debris/Asteroid pools and assign to parent object for clean hierarchy
+    List<GameObject> CreateDebrisPools(GameObject prefab, Transform parent)
+    {
+        List<GameObject> pool = ObjectPooler.CreateObjectPool(_debrisMaxPoolCount, prefab);
+        ObjectPooler.AssignParentGroup(pool, parent);
+        return pool;
+    }
+
+    #endregion
+    #region Spawning
+    void StartSpawning()
+    {
+        StartCoroutine(SpawnDebris());
+    }
+
+    void StopSpawning()
+    {
+        // Stop spawning debris and return debris to object pools
+        StopAllCoroutines();
+        ObjectPooler.ReturnObjectsToPool(_commonDebrisPool);
+        ObjectPooler.ReturnObjectsToPool(_uncommonDebrisPool);
+        ObjectPooler.ReturnObjectsToPool(_rareDebrisPool);
+        ObjectPooler.ReturnObjectsToPool(_asteroidPool);
     }
 
     // Spawns debris
@@ -66,7 +103,7 @@ public class DebrisManager : MonoBehaviour
         {
             yield return new WaitForSeconds(_curSpawnTime);
 
-            GameObject debris = ObjectPooler.GetPooledObject(_debrisPool);
+            GameObject debris = ObjectPooler.GetPooledObject(_commonDebrisPool);
 
             // Check there is available debris to spawn
             if (debris != null)
@@ -104,7 +141,10 @@ public class DebrisManager : MonoBehaviour
             return null;
         }
     }
+    #endregion
 
+    // Event Handlers
+    #region EventHandlers
     void DebrisShotEventHandler(GameObject debrisHit)
     {
         // Deactivate debris
@@ -115,16 +155,5 @@ public class DebrisManager : MonoBehaviour
     {
         StopSpawning();
     }
-
-    void StopSpawning()
-    {
-        // Stop spawning debris and return debris to object pooler
-        StopAllCoroutines();
-        ObjectPooler.ReturnObjectsToPool(_debrisPool);
-    }
-
-    void StartSpawning()
-    {
-        StartCoroutine(SpawnDebris());
-    }
+    #endregion
 }
