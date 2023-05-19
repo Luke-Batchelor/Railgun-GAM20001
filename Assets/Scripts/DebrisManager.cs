@@ -10,7 +10,7 @@ public class DebrisManager : MonoBehaviour
     [SerializeField] GameObject _debrisPrefab;
     [SerializeField] Transform _debrisGrouping;
     [SerializeField] int _debrisMaxCount;
-    [SerializeField] List<Transform> _debrisSpawnList;
+    [SerializeField] List<Transform> _debrisSpawnPosList;
 
     // Debris List
     List<GameObject> _debrisPool;
@@ -55,6 +55,8 @@ public class DebrisManager : MonoBehaviour
     {
         while (true)
         {
+            yield return new WaitForSeconds(_curSpawnTime);
+
             GameObject debris = ObjectPooler.GetPooledObject(_debrisPool);
 
             // Check there is available debris to spawn
@@ -69,26 +71,23 @@ public class DebrisManager : MonoBehaviour
                     debris.SetActive(true);
                 }
             }
-
-            yield return new WaitForSeconds(_curSpawnTime);
         }
     }
 
     // Selects spawn point for debris
     Transform SelectSpawnPoint()
     {
-        // Check that all spawn points are not taken up already
-        if (_debrisSpawnList.Count != 0)
+        // Check that spawn points exist
+        if (_debrisSpawnPosList.Count != 0)
         {
-            Transform spawn = _debrisSpawnList[Random.Range(0, _debrisSpawnList.Count)];
+            Transform spawn = _debrisSpawnPosList[Random.Range(0, _debrisSpawnPosList.Count)];
 
             // Ensure debris doesn't spawn within 2 units from satellite 
             while(Mathf.Abs((spawn.position - _satellite.transform.position).magnitude) < 2f)
             {
-                spawn = _debrisSpawnList[Random.Range(0, _debrisSpawnList.Count)];
+                spawn = _debrisSpawnPosList[Random.Range(0, _debrisSpawnPosList.Count)];
             }
 
-            //_debrisSpawnList.Remove(spawn);
             return spawn;
         }
         else
@@ -117,7 +116,6 @@ public class DebrisManager : MonoBehaviour
 
     void StartSpawning()
     {
-        //InvokeRepeating("SpawnDebris", 2f, 5f);
         StartCoroutine(SpawnDebris());
     }
 }
