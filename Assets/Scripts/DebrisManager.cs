@@ -27,6 +27,12 @@ public class DebrisManager : MonoBehaviour
     [SerializeField] List<Transform> _debrisSpawnPosList;
     [SerializeField] List<Transform> _asteroidSpawnPosList;
 
+    [Header("Debris Spawn Chance %")]
+    [SerializeField] int _commonChance;
+    [SerializeField] int _uncommonChance;
+    [SerializeField] int _rareChance;
+    [SerializeField] int _asteroidChance;
+
     // Debris List
     List<GameObject> _commonDebrisPool;
     List<GameObject> _uncommonDebrisPool;
@@ -96,14 +102,15 @@ public class DebrisManager : MonoBehaviour
         ObjectPooler.ReturnObjectsToPool(_asteroidPool);
     }
 
-    // Spawns debris
+    // Spawns debris coroutine
     IEnumerator SpawnDebris()
     {
         while (true)
         {
             yield return new WaitForSeconds(_curSpawnTime);
 
-            GameObject debris = ObjectPooler.GetPooledObject(_commonDebrisPool);
+            // Select debris
+            GameObject debris = ObjectPooler.GetPooledObject(SelectDebrisPool());
 
             // Check there is available debris to spawn
             if (debris != null)
@@ -117,6 +124,29 @@ public class DebrisManager : MonoBehaviour
                     debris.SetActive(true);
                 }
             }
+        }
+    }
+
+    // Select debris to spawn
+    List<GameObject> SelectDebrisPool()
+    {
+        int num = Random.Range(0, 100);
+
+        if (num >= 0 && num < _commonChance)
+        {
+            return _commonDebrisPool;
+        }
+        else if (num >= _commonChance && num < _commonChance + _uncommonChance)
+        {
+            return _uncommonDebrisPool;
+        }
+        else if (num >= _commonChance + _uncommonChance && num < _commonChance + _uncommonChance + _rareChance)
+        {
+            return _rareDebrisPool;
+        }
+        else
+        {
+            return _asteroidPool;
         }
     }
 
