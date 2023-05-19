@@ -100,6 +100,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebrisRock3Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2574829565418482005, guid: 0c6707497050bc248965442c3b9711d6, type: 3}
+      propertyPath: _pointValue
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -2068,15 +2068,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5129116bc6907324ba6bb9775d3447df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _debrisPrefab: {fileID: 795912140676135407, guid: 70b83a9c15005684db0bd7b35d0b6ee2, type: 3}
+  _satellite: {fileID: 430207675}
+  _commonDebrisPrefab: {fileID: 5319535912781626375, guid: 96be32d1616aea9498149b3f0ab505c8, type: 3}
+  _uncommonDebrisPrefab: {fileID: 5026853554843910643, guid: cf4b6587e4558fe478545ceb40a291ff, type: 3}
+  _rareDebrisPrefab: {fileID: 795912140676135407, guid: 70b83a9c15005684db0bd7b35d0b6ee2, type: 3}
+  _asteroidPrefab: {fileID: 6656368778292924083, guid: 04b12161d3a33384cbbf3c096bc8d0ae, type: 3}
+  _debrisMaxPoolCount: 10
   _debrisGrouping: {fileID: 1129378675}
-  _debrisMaxCount: 4
-  _debrisSpawnList:
+  _debrisSpawnPosList:
   - {fileID: 1117210523}
   - {fileID: 556286055}
   - {fileID: 150470503}
   - {fileID: 1593915403}
-  _satellite: {fileID: 430207675}
   _minSpawnTime: 2
   _maxSpawnTime: 5
   _changeSpawnTimeAfter: 10

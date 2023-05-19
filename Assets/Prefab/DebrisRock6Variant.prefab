@@ -100,6 +100,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.border.z
       value: 2.02
       objectReference: {fileID: 0}
+    - target: {fileID: 7268025962957057139, guid: 04b12161d3a33384cbbf3c096bc8d0ae, type: 3}
+      propertyPath: _pointValue
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -6,19 +6,28 @@ using UnityEngine;
 
 public class DebrisManager : MonoBehaviour
 {
+    // Satellite Cache
+    [Header("Satellite")]
+    [SerializeField] GameObject _satellite;
+
     // Debris Data
-    [SerializeField] GameObject _debrisPrefab;
+    [Header("Debris Prefabs")]
+    [SerializeField] GameObject _commonDebrisPrefab;
+    [SerializeField] GameObject _uncommonDebrisPrefab;
+    [SerializeField] GameObject _rareDebrisPrefab;
+    [SerializeField] GameObject _asteroidPrefab;
+
+    // Debris Grouping
+    [Header("Debris Spawning Data")]
+    [SerializeField] int _debrisMaxPoolCount;
     [SerializeField] Transform _debrisGrouping;
-    [SerializeField] int _debrisMaxCount;
     [SerializeField] List<Transform> _debrisSpawnPosList;
 
     // Debris List
     List<GameObject> _debrisPool;
 
-    // Satellite Cache
-    [SerializeField] GameObject _satellite;
-
     // Spawn Data
+    [Header("Spawn Time Data")]
     [SerializeField] float _minSpawnTime;
     [SerializeField] float _maxSpawnTime;
     [SerializeField] int _changeSpawnTimeAfter;
@@ -42,7 +51,7 @@ public class DebrisManager : MonoBehaviour
     void Start()
     {
         // Create Debris pool and assign to parent object for clean hierarchy
-        _debrisPool = ObjectPooler.CreateObjectPool(_debrisMaxCount, _debrisPrefab);
+        _debrisPool = ObjectPooler.CreateObjectPool(_debrisMaxPoolCount, _commonDebrisPrefab);
         ObjectPooler.AssignParentGroup(_debrisPool, _debrisGrouping);
         StartSpawning();
 
