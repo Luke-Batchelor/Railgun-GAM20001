@@ -2373,10 +2373,10 @@ MonoBehaviour:
   - {fileID: 641052005}
   - {fileID: 985086407}
   - {fileID: 1683791257}
-  _commonChance: 5
-  _uncommonChance: 5
+  _commonChance: 55
+  _uncommonChance: 30
   _rareChance: 10
-  _asteroidChance: 80
+  _asteroidChance: 5
   _minSpawnTime: 2
   _maxSpawnTime: 5
   _changeSpawnTimeAfter: 10
