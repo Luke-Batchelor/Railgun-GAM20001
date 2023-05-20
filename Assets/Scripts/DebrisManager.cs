@@ -38,6 +38,7 @@ public class DebrisManager : MonoBehaviour
     List<GameObject> _uncommonDebrisPool;
     List<GameObject> _rareDebrisPool;
     List<GameObject> _asteroidPool;
+    bool _isAsteroid;
 
     // Spawn Data
     [Header("Spawn Time Data")]
@@ -66,7 +67,7 @@ public class DebrisManager : MonoBehaviour
     {
         // Set spawn time data
         _curSpawnTime = _maxSpawnTime;
-
+ 
         // Create object pools
         _commonDebrisPool = CreateDebrisPools(_commonDebrisPrefab, _commonDebrisGrouping);
         _uncommonDebrisPool = CreateDebrisPools(_uncommonDebrisPrefab, _uncommonDebrisGrouping);
@@ -89,6 +90,9 @@ public class DebrisManager : MonoBehaviour
     #region Spawning
     void StartSpawning()
     {
+        // Reset asteroid flag
+        _isAsteroid = false;
+
         StartCoroutine(SpawnDebris());
     }
 
@@ -109,13 +113,19 @@ public class DebrisManager : MonoBehaviour
         {
             yield return new WaitForSeconds(_curSpawnTime);
 
+            _isAsteroid = false;
+
             // Select debris
             GameObject debris = ObjectPooler.GetPooledObject(SelectDebrisPool());
 
             // Check there is available debris to spawn
             if (debris != null)
             {
-                Transform spawn = SelectSpawnPoint();
+                // Select spawn list
+                List<Transform> spawnPosList = _isAsteroid == true ? _asteroidSpawnPosList : _debrisSpawnPosList;
+
+                Transform spawn = SelectSpawnPoint(spawnPosList);
+
                 // Select a random spawn point
                 if (spawn != null)
                 {
@@ -146,22 +156,23 @@ public class DebrisManager : MonoBehaviour
         }
         else
         {
+            _isAsteroid = true;
             return _asteroidPool;
         }
     }
 
-    // Selects spawn point for debris
-    Transform SelectSpawnPoint()
+    // Selects spawn point for debris or asteroid
+    Transform SelectSpawnPoint(List<Transform> spawnPosList)
     {
         // Check that spawn points exist
-        if (_debrisSpawnPosList.Count != 0)
+        if (spawnPosList.Count != 0)
         {
-            Transform spawn = _debrisSpawnPosList[Random.Range(0, _debrisSpawnPosList.Count)];
+            Transform spawn = spawnPosList[Random.Range(0, spawnPosList.Count)];
 
             // Ensure debris doesn't spawn within 2 units from satellite 
             while(Mathf.Abs((spawn.position - _satellite.transform.position).magnitude) < 2f)
             {
-                spawn = _debrisSpawnPosList[Random.Range(0, _debrisSpawnPosList.Count)];
+                spawn = spawnPosList[Random.Range(0, spawnPosList.Count)];
             }
 
             return spawn;

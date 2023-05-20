@@ -8,14 +8,15 @@ public class Debris : MonoBehaviour
     public static Action<GameObject> DebrisShotEvent;
 
     [SerializeField] float _angularSpeed;
+    [SerializeField] float _oscillateDist;
     [SerializeField] int _pointValue;
 
-    private void Update()
+    public virtual void Update()
     {
         // Orbit code
         transform.RotateAround(Vector3.zero, Vector3.back, _angularSpeed * Time.deltaTime);
         // Move between two points
-        transform.Translate(Vector3.up * Mathf.Sin(Time.time) * Time.deltaTime * 2f, transform);
+        transform.Translate(Vector3.up * Mathf.Sin(Time.time) * Time.deltaTime * _oscillateDist, transform);
     }
 
     public void OnRailgunHit()

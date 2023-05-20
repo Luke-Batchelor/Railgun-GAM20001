@@ -212,7 +212,7 @@ SpriteRenderer:
   m_SortingLayerID: -516737477
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 08e30a7afe41d8649b7eb1e431b3887d, type: 3}
   m_Color: {r: 0, g: 0.36487365, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -232,7 +232,7 @@ Transform:
   m_GameObject: {fileID: 256069945}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 0.28, y: 0.28, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2354,10 +2354,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _satellite: {fileID: 430207675}
-  _commonDebrisPrefab: {fileID: 5319535912781626375, guid: 96be32d1616aea9498149b3f0ab505c8, type: 3}
-  _uncommonDebrisPrefab: {fileID: 5026853554843910643, guid: cf4b6587e4558fe478545ceb40a291ff, type: 3}
-  _rareDebrisPrefab: {fileID: 795912140676135407, guid: 70b83a9c15005684db0bd7b35d0b6ee2, type: 3}
-  _asteroidPrefab: {fileID: 6656368778292924083, guid: 04b12161d3a33384cbbf3c096bc8d0ae, type: 3}
+  _commonDebrisPrefab: {fileID: 1624090021840831019, guid: 8fbf10e1c58c6824cb8f3ce59775e10b, type: 3}
+  _uncommonDebrisPrefab: {fileID: 6538539690223278725, guid: 76e8d33b64b250a46aedd33edf4d6ffb, type: 3}
+  _rareDebrisPrefab: {fileID: 3426777210771707142, guid: d48345896bdea19499c30d6378cefa79, type: 3}
+  _asteroidPrefab: {fileID: 2786181838301109034, guid: fefea65fedc6b054191d6a54163fae17, type: 3}
   _debrisMaxPoolCount: 10
   _commonDebrisGrouping: {fileID: 1542748293}
   _uncommonDebrisGrouping: {fileID: 1805445367}
@@ -2373,10 +2373,10 @@ MonoBehaviour:
   - {fileID: 641052005}
   - {fileID: 985086407}
   - {fileID: 1683791257}
-  _commonChance: 55
-  _uncommonChance: 30
+  _commonChance: 5
+  _uncommonChance: 5
   _rareChance: 10
-  _asteroidChance: 5
+  _asteroidChance: 80
   _minSpawnTime: 2
   _maxSpawnTime: 5
   _changeSpawnTimeAfter: 10
