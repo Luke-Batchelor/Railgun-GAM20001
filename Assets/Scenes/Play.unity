@@ -2377,10 +2377,12 @@ MonoBehaviour:
   _uncommonChance: 30
   _rareChance: 10
   _asteroidChance: 5
-  _minSpawnTime: 2
+  _minSpawnTime: 0.5
   _maxSpawnTime: 5
-  _changeSpawnTimeAfter: 10
   _changeSpawnTimeBy: 0.5
+  _changeSpawnTimeAfter: 10
+  _curSpawnTime: 0
+  _debrisSpawnNum: 0
 --- !u!1 &1843952605
 GameObject:
   m_ObjectHideFlags: 0

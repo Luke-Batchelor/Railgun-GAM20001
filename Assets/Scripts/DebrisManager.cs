@@ -44,9 +44,13 @@ public class DebrisManager : MonoBehaviour
     [Header("Spawn Time Data")]
     [SerializeField] float _minSpawnTime;
     [SerializeField] float _maxSpawnTime;
-    [SerializeField] int _changeSpawnTimeAfter;
     [SerializeField] float _changeSpawnTimeBy;
-    float _curSpawnTime;
+    [Tooltip("Change the spawn rate after certain number of Debris has spawned.")]
+    [SerializeField] int _changeSpawnTimeAfter;
+    
+    // Spawn Data Tracking
+    [SerializeField] float _curSpawnTime;
+    [SerializeField] int _debrisSpawnNum;
 
     #region Setup
     private void OnEnable()
@@ -90,8 +94,10 @@ public class DebrisManager : MonoBehaviour
     #region Spawning
     void StartSpawning()
     {
-        // Reset asteroid flag
+        // Reset data
         _isAsteroid = false;
+        _curSpawnTime = _maxSpawnTime;
+        _debrisSpawnNum = 0;
 
         StartCoroutine(SpawnDebris());
     }
@@ -124,15 +130,31 @@ public class DebrisManager : MonoBehaviour
                 // Select spawn list
                 List<Transform> spawnPosList = _isAsteroid == true ? _asteroidSpawnPosList : _debrisSpawnPosList;
 
+                // Select a random spawn point
                 Transform spawn = SelectSpawnPoint(spawnPosList);
 
-                // Select a random spawn point
+                // Spawn debris
                 if (spawn != null)
                 {
                     debris.transform.position = spawn.position;
                     debris.transform.rotation = spawn.rotation;
                     debris.SetActive(true);
+                    _debrisSpawnNum++;
                 }
+
+                CheckSpawnRateChange();
+            }
+        }
+    }
+
+    // Check for spawn rate change
+    void CheckSpawnRateChange()
+    {
+        if (_debrisSpawnNum % _changeSpawnTimeAfter == 0)
+        {
+            if (_curSpawnTime > _minSpawnTime)
+            {
+                _curSpawnTime -= _changeSpawnTimeBy;
             }
         }
     }
@@ -169,8 +191,8 @@ public class DebrisManager : MonoBehaviour
         {
             Transform spawn = spawnPosList[Random.Range(0, spawnPosList.Count)];
 
-            // Ensure debris doesn't spawn within 2 units from satellite 
-            while(Mathf.Abs((spawn.position - _satellite.transform.position).magnitude) < 2f)
+            // Ensure debris doesn't spawn within X units from satellite 
+            while(Mathf.Abs((spawn.position - _satellite.transform.position).magnitude) < 2.5f)
             {
                 spawn = spawnPosList[Random.Range(0, spawnPosList.Count)];
             }

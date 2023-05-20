@@ -9,7 +9,7 @@ public class Asteroid : Debris
 
     private void OnEnable()
     {
-        _timer = 0;    
+        _timer = 0;
     }
 
     public override void Update()
@@ -23,6 +23,6 @@ public class Asteroid : Debris
         {
             _timer = 0;
             this.gameObject.SetActive(false);
-        }    
+        }
     }
 }
