@@ -5,11 +5,11 @@ using UnityEngine;
 public class Railgun : MonoBehaviour
 {
     // Components
-    private Rigidbody2D _rb;
     private LineRenderer _lr;
 
     // Inputs
     private Vector3 _lookDir;
+    Quaternion _lookRot;
     private float _mouseDistance;
     private Vector3 _mousePos;
 
@@ -19,10 +19,10 @@ public class Railgun : MonoBehaviour
 
     // Beam
     [SerializeField] float _beamDuration;
+    [SerializeField] float _rotationSpeed;
 
     void Start()
     {
-        _rb = GetComponent<Rigidbody2D>();
         _lr = GetComponent<LineRenderer>();
         _lr.enabled = false;
     }
@@ -65,8 +65,11 @@ public class Railgun : MonoBehaviour
         _mouseDistance = (_mousePos - transform.position).magnitude;
 
         _lookDir = _mousePos - transform.position;
-        Quaternion lookRot = Quaternion.LookRotation(_lookDir, Vector3.back);
-        _rb.MoveRotation(lookRot);
+
+        Quaternion fullRot = Quaternion.LookRotation(transform.forward, _lookDir);
+        _lookRot = Quaternion.identity;
+        _lookRot.eulerAngles = new Vector3(0, 0, fullRot.eulerAngles.z);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, _lookRot, _rotationSpeed * Time.deltaTime);
     }
 
     void FireGun()
