@@ -12,6 +12,7 @@ public class Railgun : MonoBehaviour
     Quaternion _lookRot;
     private float _mouseDistance;
     private Vector3 _mousePos;
+    private Quaternion _previousRot;
 
     // Target Info
     RaycastHit2D _hit;
@@ -20,6 +21,7 @@ public class Railgun : MonoBehaviour
     // Beam
     [SerializeField] float _beamDuration;
     [SerializeField] float _rotationSpeed;
+    [SerializeField] Transform _beamStartPos;
 
     void Start()
     {
@@ -29,17 +31,17 @@ public class Railgun : MonoBehaviour
 
     void Update()
     {
-        RotateGun();
-
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Mathf.Abs(Quaternion.Angle(_lookRot, transform.rotation)) < 0.2f)
         {
             FireGun();
         }
+
+        RotateGun();
     }
 
     void FixedUpdate()
     {
-        _hit = Physics2D.Raycast(transform.position, _lookDir, _mouseDistance);
+        _hit = Physics2D.Raycast(transform.position, _lookDir);
 
         if (_hit)
         {
@@ -66,17 +68,20 @@ public class Railgun : MonoBehaviour
 
         _lookDir = _mousePos - transform.position;
 
+        _previousRot = _lookRot;
+
         Quaternion fullRot = Quaternion.LookRotation(transform.forward, _lookDir);
         _lookRot = Quaternion.identity;
         _lookRot.eulerAngles = new Vector3(0, 0, fullRot.eulerAngles.z);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, _lookRot, _rotationSpeed * Time.deltaTime);
+        Debug.Log(_lookRot.eulerAngles);
     }
 
     void FireGun()
     {
         StartCoroutine(BeamActive());
 
-        _lr.SetPosition(0, transform.position);
+        _lr.SetPosition(0, _beamStartPos.position);
 
         if (_isOnTarget && _hit)
         {
@@ -86,7 +91,7 @@ public class Railgun : MonoBehaviour
         }
         else
         {
-            _lr.SetPosition(1, _mousePos);
+            _lr.SetPosition(1, _beamStartPos.position * 15);
         }
     }
 
