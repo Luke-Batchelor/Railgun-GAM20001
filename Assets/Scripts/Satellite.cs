@@ -45,6 +45,22 @@ public class Satellite : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Debris"))
+        {
+            Debug.Log("Oh no!");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Debris"))
+        {
+            Debug.Log("Phew");
+        }
+    }
+
     void RestartGameEventHandler()
     {
         _isHit = false;
