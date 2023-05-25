@@ -19,9 +19,14 @@ public class Railgun : MonoBehaviour
     bool _isOnTarget;
 
     // Beam
+    [Header("Beam Data")]
     [SerializeField] float _beamDuration;
-    [SerializeField] float _rotationSpeed;
+    [SerializeField] float _scrollTexSpeed;
     [SerializeField] Transform _beamStartPos;
+
+    [Header("Railgun Movement Data")]
+    [SerializeField] float _rotationSpeed;
+
 
     void Start()
     {
@@ -74,7 +79,6 @@ public class Railgun : MonoBehaviour
         _lookRot = Quaternion.identity;
         _lookRot.eulerAngles = new Vector3(0, 0, fullRot.eulerAngles.z);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, _lookRot, _rotationSpeed * Time.deltaTime);
-        Debug.Log(_lookRot.eulerAngles);
     }
 
     void FireGun()
