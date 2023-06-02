@@ -6,11 +6,13 @@ using System;
 public class Satellite : MonoBehaviour
 {
     [SerializeField] private float _angularSpeed;
-    [SerializeField] private float _blinkTime;
+    [SerializeField] private float _safeBlinkTime;
     [SerializeField] private float _alertBlinkTime;
     ParticleSystem _particleSys;
      
     bool _isHit;
+    bool _alertMode;
+    bool _safeMode;
 
     public static Action SatelliteHitEvent;
 
@@ -26,6 +28,8 @@ public class Satellite : MonoBehaviour
 
     private void Start()
     {
+        _safeMode = true;
+        _alertMode = false;
         _isHit = false;
         _particleSys = GetComponent<ParticleSystem>();
     }
@@ -37,6 +41,22 @@ public class Satellite : MonoBehaviour
             // Orbit around Earth
             transform.RotateAround(Vector3.zero, Vector3.back, _angularSpeed * Time.deltaTime);
         }
+
+        var detected = Physics2D.OverlapCircle(transform.position, 11f, LayerMask.GetMask("Debris"));
+
+        // Change between safe and alert mode depending on if collisions occur
+        if (detected == null && !_safeMode)
+        {
+            Debug.Log("safe");
+            ModeChange(Color.green, _safeBlinkTime);
+            SafeModeActive(true);
+        }
+        else if (detected != null && !_alertMode)
+        {
+            Debug.Log("alert");
+            ModeChange(Color.red, _alertBlinkTime);
+            SafeModeActive(false);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -47,32 +67,26 @@ public class Satellite : MonoBehaviour
             _isHit = true;
             SatelliteHitEvent?.Invoke();
         }
-    }
+    } 
 
-    // Red alert if Satellite gets close to Debris
-    private void OnTriggerEnter2D(Collider2D collision)
+    // Change between safe mode and alert mode
+    void ModeChange(Color colour, float blinkTime)
     {
-        if (collision.gameObject.CompareTag("Debris"))
-        {
-            var particleSysMain = _particleSys.main;
-            particleSysMain.startColor = Color.red;
-            particleSysMain.startLifetime = _alertBlinkTime;
-        }
-    }
-
-    // Satellite goes back to normal when Debris is gone
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Debris"))
-        {
-            var particleSysMain = _particleSys.main;
-            particleSysMain.startColor = Color.green;
-            particleSysMain.startLifetime = _blinkTime;
-        }
+        _particleSys.Stop();
+        var particleSysMain = _particleSys.main;
+        particleSysMain.startColor = colour;
+        particleSysMain.startLifetime = blinkTime;
+        _particleSys.Play();
     }
 
     void RestartGameEventHandler()
     {
         _isHit = false;
+    }
+
+    void SafeModeActive(bool toggle)
+    {
+        _safeMode = toggle;
+        _alertMode = !toggle;
     }
 }
