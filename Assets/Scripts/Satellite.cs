@@ -54,13 +54,11 @@ public class Satellite : MonoBehaviour
         // Change between safe and alert mode depending on if collisions occur
         if (detected == null && !_safeMode)
         {
-            Debug.Log("safe");
             ModeChange(Color.green, _safeBlinkTime, _safeAudioTime);
             SafeModeActive(true);
         }
         else if (detected != null && !_alertMode)
         {
-            Debug.Log("alert");
             ModeChange(Color.red, _alertBlinkTime, _alertAudioTime);
             SafeModeActive(false);
         }
