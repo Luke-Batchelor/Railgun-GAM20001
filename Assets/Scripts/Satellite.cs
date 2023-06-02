@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UIElements;
 
 public class Satellite : MonoBehaviour
 {
     [SerializeField] private float _angularSpeed;
+    [SerializeField] private float _detectionRadius;
     [SerializeField] private float _safeBlinkTime;
+    [SerializeField] private float _safeAudioTime;
     [SerializeField] private float _alertBlinkTime;
+    [SerializeField] private float _alertAudioTime;
     ParticleSystem _particleSys;
+    AudioSource _audioSource;
      
     bool _isHit;
     bool _alertMode;
@@ -32,6 +37,8 @@ public class Satellite : MonoBehaviour
         _alertMode = false;
         _isHit = false;
         _particleSys = GetComponent<ParticleSystem>();
+        _audioSource = GetComponent<AudioSource>();
+        ModeChange(Color.green, _safeBlinkTime, _safeAudioTime);
     }
 
     void Update()
@@ -42,19 +49,19 @@ public class Satellite : MonoBehaviour
             transform.RotateAround(Vector3.zero, Vector3.back, _angularSpeed * Time.deltaTime);
         }
 
-        var detected = Physics2D.OverlapCircle(transform.position, 11f, LayerMask.GetMask("Debris"));
+        var detected = Physics2D.OverlapCircle(transform.position, _detectionRadius, LayerMask.GetMask("Debris"));
 
         // Change between safe and alert mode depending on if collisions occur
         if (detected == null && !_safeMode)
         {
             Debug.Log("safe");
-            ModeChange(Color.green, _safeBlinkTime);
+            ModeChange(Color.green, _safeBlinkTime, _safeAudioTime);
             SafeModeActive(true);
         }
         else if (detected != null && !_alertMode)
         {
             Debug.Log("alert");
-            ModeChange(Color.red, _alertBlinkTime);
+            ModeChange(Color.red, _alertBlinkTime, _alertAudioTime);
             SafeModeActive(false);
         }
     }
@@ -70,13 +77,20 @@ public class Satellite : MonoBehaviour
     } 
 
     // Change between safe mode and alert mode
-    void ModeChange(Color colour, float blinkTime)
+    void ModeChange(Color colour, float blinkTime, float audioTime)
     {
         _particleSys.Stop();
+        CancelInvoke();
         var particleSysMain = _particleSys.main;
         particleSysMain.startColor = colour;
         particleSysMain.startLifetime = blinkTime;
+        InvokeRepeating("PlayAudio", 1f, audioTime);
         _particleSys.Play();
+    }
+
+    void PlayAudio()
+    {
+        _audioSource.Play();
     }
 
     void RestartGameEventHandler()
@@ -88,5 +102,12 @@ public class Satellite : MonoBehaviour
     {
         _safeMode = toggle;
         _alertMode = !toggle;
+    }
+
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _detectionRadius);
     }
 }
