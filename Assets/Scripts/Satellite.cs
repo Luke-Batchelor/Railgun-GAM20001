@@ -6,10 +6,13 @@ using System;
 public class Satellite : MonoBehaviour
 {
     [SerializeField] private float _angularSpeed;
+    [SerializeField] private float _blinkTime;
+    [SerializeField] private float _alertBlinkTime;
+    ParticleSystem _particleSys;
+     
+    bool _isHit;
 
     public static Action SatelliteHitEvent;
-
-    bool _isHit;
 
     private void OnEnable()
     {
@@ -24,6 +27,7 @@ public class Satellite : MonoBehaviour
     private void Start()
     {
         _isHit = false;
+        _particleSys = GetComponent<ParticleSystem>();
     }
 
     void Update()
@@ -45,19 +49,25 @@ public class Satellite : MonoBehaviour
         }
     }
 
+    // Red alert if Satellite gets close to Debris
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Debris"))
         {
-            Debug.Log("Oh no!");
+            var particleSysMain = _particleSys.main;
+            particleSysMain.startColor = Color.red;
+            particleSysMain.startLifetime = _alertBlinkTime;
         }
     }
 
+    // Satellite goes back to normal when Debris is gone
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Debris"))
         {
-            Debug.Log("Phew");
+            var particleSysMain = _particleSys.main;
+            particleSysMain.startColor = Color.green;
+            particleSysMain.startLifetime = _blinkTime;
         }
     }
 

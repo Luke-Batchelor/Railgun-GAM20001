@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1206384315996317976}
   - component: {fileID: 4066142227004050496}
   - component: {fileID: 4708905560045157958}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DebrisRock4Variant
   m_TagString: Debris
   m_Icon: {fileID: 0}

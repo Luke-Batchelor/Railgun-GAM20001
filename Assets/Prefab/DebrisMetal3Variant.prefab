@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1531511267230748946}
   - component: {fileID: 3058712493206500176}
   - component: {fileID: 765287427}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DebrisMetal3Variant
   m_TagString: Debris
   m_Icon: {fileID: 0}

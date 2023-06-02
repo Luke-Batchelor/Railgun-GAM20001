@@ -46,20 +46,17 @@ public class Railgun : MonoBehaviour
 
     void FixedUpdate()
     {
-        _hit = Physics2D.Raycast(transform.position, _lookDir);
+        _hit = Physics2D.Raycast(transform.position, _lookDir, 100f, LayerMask.GetMask("Debris"));
 
         if (_hit)
         {
-            if (_hit.collider.CompareTag("Debris"))
-            {
-                _isOnTarget = true;
-                Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.green);
-            }
-            else
-            {
-                _isOnTarget = false;
-                Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.red);
-            }
+            _isOnTarget = true;
+            Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.green);
+        }
+        else
+        {
+            _isOnTarget = false;
+            Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.red);
         }
     }
 
