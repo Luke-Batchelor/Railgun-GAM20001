@@ -7100,6 +7100,8 @@ MonoBehaviour:
   _beamDuration: 0.2
   _beamStartPos: {fileID: 1987534441}
   _rotationSpeed: 55
+  _beamSFX: {fileID: 8300000, guid: 2421f5e24a6f69047821719a63d6f3ab, type: 3}
+  _gunReadySFX: {fileID: 8300000, guid: 809468f94e3b7db4aad9516f72cd32b8, type: 3}
 --- !u!120 &1361071872
 LineRenderer:
   serializedVersion: 2
@@ -7244,7 +7246,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 23569ae1b8596604fac53496fb840208, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.2
-  m_Pitch: 0.5
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0

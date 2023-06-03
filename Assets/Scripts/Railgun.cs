@@ -26,19 +26,36 @@ public class Railgun : MonoBehaviour
     [Header("Railgun Movement Data")]
     [SerializeField] float _rotationSpeed;
 
+    [Header("Railgun SFX")]
+    [SerializeField] AudioClip _beamSFX;
+    [SerializeField] AudioClip _gunReadySFX;
+    bool _playedGunReady;
 
     void Start()
     {
         _lr = GetComponent<LineRenderer>();
         _audio = GetComponent<AudioSource>();
         _lr.enabled = false;
+        _playedGunReady = false;
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && Mathf.Abs(Quaternion.Angle(_lookRot, transform.rotation)) < 0.2f)
+        if (Mathf.Abs(Quaternion.Angle(_lookRot, transform.rotation)) < 0.1f)
         {
-            FireGun();
+            if (!_playedGunReady)
+            {
+                PlayAudio(_gunReadySFX);
+                _playedGunReady = true;
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                FireGun();
+            }
+        }
+        else
+        {
+            _playedGunReady = false;
         }
 
         RotateGun();
@@ -79,7 +96,7 @@ public class Railgun : MonoBehaviour
     void FireGun()
     {
         StartCoroutine(BeamActive());
-        PlayAudio();
+        PlayAudio(_beamSFX);
         _lr.SetPosition(0, _beamStartPos.position);
 
         if (_isOnTarget && _hit)
@@ -101,8 +118,8 @@ public class Railgun : MonoBehaviour
         _lr.enabled = false;
     }
 
-    void PlayAudio()
+    void PlayAudio(AudioClip sfx)
     {
-        _audio.Play();
+        _audio.PlayOneShot(sfx);
     }
 }
