@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.VisualScripting;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -12,6 +13,10 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] GameObject _gameOverScreen;
     [SerializeField] TextMeshProUGUI _scoreText;
+    [SerializeField] GameObject _pauseScreen;
+
+    bool _paused;
+    bool _gameOver;
 
     public static Action RestartGameEvent;
 
@@ -29,26 +34,43 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        ShowGameOverScreen(false);
+        _paused = false;
+        _gameOver = false;
+        ShowGameOverScreen(_gameOver);
+        PauseGame(_paused);
     }
 
-    public void ShowGameOverScreen(bool flag)
+    private void Update()
     {
-        _gameOverScreen.SetActive(flag);
+        if (Input.GetKeyDown(KeyCode.Escape) && !_gameOver)
+        {
+            _paused = !_paused;
 
-        if (flag)
-        {
-            Time.timeScale = 0;
+            PauseGame(_paused);
         }
-        else
-        {
-            Time.timeScale = 1;
-        }
+    }
+
+    public void ShowGameOverScreen(bool gameOver)
+    {
+        _gameOverScreen.SetActive(gameOver);
+        _gameOver = gameOver;
+
+        Time.timeScale = gameOver ? 0 : 1;
+    }
+
+    // Pause or unpause the game
+    public void PauseGame(bool paused)
+    {
+        _pauseScreen.SetActive(paused);
+
+        Time.timeScale = paused ? 0 : 1;
     }
 
     public void RestartGame()
     {
-        ShowGameOverScreen(false);
+        _paused = false;
+        _gameOver = false;
+        ShowGameOverScreen(_gameOver);
         RestartGameEvent?.Invoke();
     }
 
