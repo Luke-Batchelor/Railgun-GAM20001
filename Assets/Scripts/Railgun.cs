@@ -29,6 +29,7 @@ public class Railgun : MonoBehaviour
     [Header("Railgun SFX")]
     [SerializeField] AudioClip _beamSFX;
     [SerializeField] AudioClip _gunReadySFX;
+    [SerializeField] AudioClip _beamHitSFX;
     bool _playedGunReady;
 
     void Start()
@@ -68,12 +69,12 @@ public class Railgun : MonoBehaviour
         if (_hit)
         {
             _isOnTarget = true;
-            Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.green);
+            //Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.green);
         }
         else
         {
             _isOnTarget = false;
-            Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.red);
+            //Debug.DrawRay(transform.position, _lookDir * _mouseDistance, Color.red);
         }
     }
 
@@ -102,6 +103,7 @@ public class Railgun : MonoBehaviour
         if (_isOnTarget && _hit)
         {
             _hit.collider.GetComponent<Debris>().OnRailgunHit();
+            PlayAudio(_beamHitSFX);
             _isOnTarget = false;
             _lr.SetPosition(1, _hit.point);
         }

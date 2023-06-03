@@ -7102,6 +7102,7 @@ MonoBehaviour:
   _rotationSpeed: 55
   _beamSFX: {fileID: 8300000, guid: 2421f5e24a6f69047821719a63d6f3ab, type: 3}
   _gunReadySFX: {fileID: 8300000, guid: 809468f94e3b7db4aad9516f72cd32b8, type: 3}
+  _beamHitSFX: {fileID: 8300000, guid: 54b0fc52a7d2a724c94cffc1f2d80dba, type: 3}
 --- !u!120 &1361071872
 LineRenderer:
   serializedVersion: 2
