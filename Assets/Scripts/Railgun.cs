@@ -6,13 +6,13 @@ public class Railgun : MonoBehaviour
 {
     // Components
     private LineRenderer _lr;
+    private AudioSource _audio;
 
     // Inputs
     private Vector3 _lookDir;
     Quaternion _lookRot;
     private float _mouseDistance;
     private Vector3 _mousePos;
-    private Quaternion _previousRot;
 
     // Target Info
     RaycastHit2D _hit;
@@ -30,6 +30,7 @@ public class Railgun : MonoBehaviour
     void Start()
     {
         _lr = GetComponent<LineRenderer>();
+        _audio = GetComponent<AudioSource>();
         _lr.enabled = false;
     }
 
@@ -69,8 +70,6 @@ public class Railgun : MonoBehaviour
 
         _lookDir = _mousePos - transform.position;
 
-        _previousRot = _lookRot;
-
         Quaternion fullRot = Quaternion.LookRotation(transform.forward, _lookDir);
         _lookRot = Quaternion.identity;
         _lookRot.eulerAngles = new Vector3(0, 0, fullRot.eulerAngles.z);
@@ -80,7 +79,7 @@ public class Railgun : MonoBehaviour
     void FireGun()
     {
         StartCoroutine(BeamActive());
-
+        PlayAudio();
         _lr.SetPosition(0, _beamStartPos.position);
 
         if (_isOnTarget && _hit)
@@ -100,5 +99,10 @@ public class Railgun : MonoBehaviour
         _lr.enabled = true;
         yield return new WaitForSeconds(_beamDuration);
         _lr.enabled = false;
+    }
+
+    void PlayAudio()
+    {
+        _audio.Play();
     }
 }
