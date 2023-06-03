@@ -5875,7 +5875,7 @@ GameObject:
   - component: {fileID: 581368823}
   - component: {fileID: 581368822}
   m_Layer: 5
-  m_Name: QuitText
+  m_Name: MenuText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5921,7 +5921,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quit
+  m_text: Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f8c066a076ea93d4ea5c1a8fd2764818, type: 2}
   m_sharedMaterial: {fileID: -4041703756750627195, guid: f8c066a076ea93d4ea5c1a8fd2764818, type: 2}
@@ -6543,7 +6543,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1403110171}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 648630362}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ReturnToMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &864661774
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6811,7 +6823,7 @@ GameObject:
   - component: {fileID: 1344790232}
   - component: {fileID: 1344790230}
   m_Layer: 5
-  m_Name: QuitButton
+  m_Name: MenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6884,7 +6896,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 648630362}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: QuitGame
+        m_MethodName: ReturnToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7964,7 +7976,7 @@ MonoBehaviour:
   _uncommonDebrisPrefab: {fileID: 6538539690223278725, guid: 76e8d33b64b250a46aedd33edf4d6ffb, type: 3}
   _rareDebrisPrefab: {fileID: 3426777210771707142, guid: d48345896bdea19499c30d6378cefa79, type: 3}
   _asteroidPrefab: {fileID: 2786181838301109034, guid: fefea65fedc6b054191d6a54163fae17, type: 3}
-  _debrisMaxPoolCount: 10
+  _debrisMaxPoolCount: 15
   _commonDebrisGrouping: {fileID: 1542748293}
   _uncommonDebrisGrouping: {fileID: 1805445367}
   _rareDebrisGrouping: {fileID: 890612626}

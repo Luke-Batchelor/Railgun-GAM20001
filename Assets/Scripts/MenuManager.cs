@@ -24,4 +24,13 @@ public class MenuManager : MonoBehaviour
         _instructionsUI.SetActive(toggle);
         _mainMenuUI.SetActive(!toggle);
     }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }

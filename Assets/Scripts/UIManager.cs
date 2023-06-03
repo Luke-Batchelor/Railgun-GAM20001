@@ -5,6 +5,7 @@ using UnityEngine;
 using Unity.VisualScripting;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime;
+using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -74,13 +75,9 @@ public class UIManager : MonoBehaviour
         RestartGameEvent?.Invoke();
     }
 
-    public void QuitGame()
+    public void ReturnToMenu()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        SceneManager.LoadScene(0);
     }
 
     void SatelliteHitEventHandler()
