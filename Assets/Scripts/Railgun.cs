@@ -21,7 +21,6 @@ public class Railgun : MonoBehaviour
     // Beam
     [Header("Beam Data")]
     [SerializeField] float _beamDuration;
-    [SerializeField] float _scrollTexSpeed;
     [SerializeField] Transform _beamStartPos;
 
     [Header("Railgun Movement Data")]
