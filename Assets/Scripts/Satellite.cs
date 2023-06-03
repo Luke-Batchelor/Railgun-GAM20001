@@ -33,8 +33,7 @@ public class Satellite : MonoBehaviour
 
     private void Start()
     {
-        _safeMode = true;
-        _alertMode = false;
+        SafeModeActive(true);
         _isHit = false;
         _particleSys = GetComponent<ParticleSystem>();
         _audioSource = GetComponent<AudioSource>();
@@ -74,6 +73,12 @@ public class Satellite : MonoBehaviour
         }
     } 
 
+    void SafeModeActive(bool toggle)
+    {
+        _safeMode = toggle;
+        _alertMode = !toggle;
+    }
+
     // Change between safe mode and alert mode
     void ModeChange(Color colour, float blinkTime, float audioTime)
     {
@@ -96,16 +101,11 @@ public class Satellite : MonoBehaviour
         _isHit = false;
     }
 
-    void SafeModeActive(bool toggle)
-    {
-        _safeMode = toggle;
-        _alertMode = !toggle;
-    }
-
-    
+    /*
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _detectionRadius);
     }
+    */
 }
