@@ -35,6 +35,15 @@ public class UIManager : MonoBehaviour
     public void ShowGameOverScreen(bool flag)
     {
         _gameOverScreen.SetActive(flag);
+
+        if (flag)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
     }
 
     public void RestartGame()
